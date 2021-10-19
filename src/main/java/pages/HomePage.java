@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomePage {
 
@@ -14,8 +15,9 @@ public class HomePage {
     List<WebElement> listaProdutos = new ArrayList<>();
 
     private By produtos = By.className("product-description");
-
     private By produtosNoCarrinho = By.className("cart-products-count");
+    private By descricaoProduto = By.cssSelector(".product-description a");
+    private By precoProduto = By.className("price");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -37,6 +39,19 @@ public class HomePage {
 
         int qtdNoCarrinho = Integer.parseInt(quantidadeNoCarrinho);
         return qtdNoCarrinho;
+    }
+
+    public String obterNomeDoProduto(int indice){
+        return driver.findElements(descricaoProduto).get(indice).getText().toUpperCase(Locale.ROOT);
+    }
+
+    public String obterPrecoDoProduto(int indice){
+        return driver.findElements(precoProduto).get(indice).getText();
+    }
+
+    public ProdutoPage clicarProduto(int indice){
+        driver.findElements(descricaoProduto).get(indice).click();
+        return new ProdutoPage(driver);
     }
 
 }
