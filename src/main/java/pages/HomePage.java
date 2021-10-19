@@ -15,6 +15,8 @@ public class HomePage {
 
     private By produtos = By.className("product-description");
 
+    private By produtosNoCarrinho = By.className("cart-products-count");
+
     public HomePage(WebDriver driver){
         this.driver = driver;
     }
@@ -26,6 +28,15 @@ public class HomePage {
 
     private void carregarListaProdutos(){
         listaProdutos = driver.findElements(produtos);
+    }
+
+    public int obterQuantidadeNoCarrinho(){
+        String quantidadeNoCarrinho = driver.findElement(produtosNoCarrinho).getText();
+        quantidadeNoCarrinho = quantidadeNoCarrinho.replace("(", "");
+        quantidadeNoCarrinho = quantidadeNoCarrinho.replace(")", "");
+
+        int qtdNoCarrinho = Integer.parseInt(quantidadeNoCarrinho);
+        return qtdNoCarrinho;
     }
 
 }
