@@ -19,6 +19,7 @@ public class HomePage {
     private By descricaoProduto = By.cssSelector(".product-description a");
     private By precoProduto = By.className("price");
     private By botaoSignIn = By.xpath("//*[@id=\"_desktop_user_info\"]/div/a/span");
+    private By usuarioLogado = By.xpath("//*[@id=\"_desktop_user_info\"]/div/a[2]/span");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -58,6 +59,10 @@ public class HomePage {
     public LoginPage clicarBotaoSignIn(){
         driver.findElement(botaoSignIn).click();
         return new LoginPage(driver);
+    }
+
+    public boolean estaLogado(String usuario){
+        return usuario.contentEquals(driver.findElement(usuarioLogado).getText());
     }
 
 }

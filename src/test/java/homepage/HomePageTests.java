@@ -3,7 +3,6 @@ package homepage;
 import base.BaseTests;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
-import pages.MyAccountPage;
 import pages.ProdutoPage;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,10 +44,18 @@ public class HomePageTests extends BaseTests {
 
         loginPage.preencherEmail("xico@email.com");
         loginPage.preencherPassword("987654321");
+        loginPage.clicarBotaoSignIn();
 
-        MyAccountPage myAccountPage = loginPage.clicarBotaoSignIn();
+        assertThat(homePage.estaLogado("Xico Santos"), is(true));
+    }
 
-        assertThat(myAccountPage.estaLogado("Xico Santos"), is(true));
+    @Test
+    public incluirProdutoNoCarrinho_IncluirComSucesso(){
+        if(!homePage.estaLogado("Xico Santos")){
+            testLoginComSucesso_UsuarioLogado();
+        }
+
+
     }
 
 }
