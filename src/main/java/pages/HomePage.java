@@ -18,6 +18,7 @@ public class HomePage {
     private By produtosNoCarrinho = By.className("cart-products-count");
     private By descricaoProduto = By.cssSelector(".product-description a");
     private By precoProduto = By.className("price");
+    private By botaoSignIn = By.xpath("//*[@id=\"_desktop_user_info\"]/div/a/span");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -52,6 +53,11 @@ public class HomePage {
     public ProdutoPage clicarProduto(int indice){
         driver.findElements(descricaoProduto).get(indice).click();
         return new ProdutoPage(driver);
+    }
+
+    public LoginPage clicarBotaoSignIn(){
+        driver.findElement(botaoSignIn).click();
+        return new LoginPage(driver);
     }
 
 }
