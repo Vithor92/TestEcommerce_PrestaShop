@@ -18,8 +18,8 @@ public class HomePage {
     private By produtosNoCarrinho = By.className("cart-products-count");
     private By descricaoProduto = By.cssSelector(".product-description a");
     private By precoProduto = By.className("price");
-    private By botaoSignIn = By.xpath("//*[@id=\"_desktop_user_info\"]/div/a/span");
-    private By usuarioLogado = By.xpath("//*[@id=\"_desktop_user_info\"]/div/a[2]/span");
+    private By botaoSignInDaHomePage = By.cssSelector("#_desktop_user_info span.hidden-sm-down");
+    private By usuarioLogado = By.cssSelector("#_desktop_user_info span.hidden-sm-down");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -56,8 +56,8 @@ public class HomePage {
         return new ProdutoPage(driver);
     }
 
-    public LoginPage clicarBotaoSignIn(){
-        driver.findElement(botaoSignIn).click();
+    public LoginPage clicarBotaoSignInDaHomePage(){
+        driver.findElement(botaoSignInDaHomePage).click();
         return new LoginPage(driver);
     }
 

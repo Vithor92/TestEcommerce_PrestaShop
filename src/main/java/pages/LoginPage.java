@@ -23,9 +23,9 @@ public class LoginPage {
         driver.findElement(password).sendKeys(Password);
     }
 
-    public HomePage clicarBotaoSignIn(){
+    public void clicarBotaoSignIn(){
         driver.findElement(botaoSignIn).click();
-        return new HomePage(driver);
+
     }
 
 }
