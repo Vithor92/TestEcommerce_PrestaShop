@@ -85,7 +85,7 @@ public class HomePageTests extends BaseTests {
 
         assertThat(modalProdutoPage.obterTamanhoProduto(), is(tamanhoProduto));
         assertThat(modalProdutoPage.obterCorProduto(), is(corProduto));
-        assertThat(modalProdutoPage.obterQuantidadeProduto(), is(quantidadeDesejada));
+        assertThat(modalProdutoPage.obterQuantidadeProduto(), is(Integer.toString(quantidadeDesejada)));
 
 
 
