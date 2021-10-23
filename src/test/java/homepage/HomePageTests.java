@@ -3,17 +3,21 @@ package homepage;
 import base.BaseTests;
 import org.junit.jupiter.api.Test;
 import pages.LoginPage;
+import pages.ModalProdutoPage;
 import pages.ProdutoPage;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class HomePageTests extends BaseTests {
 
     LoginPage loginPage;
     ProdutoPage produtoPage;
+    ModalProdutoPage modalProdutoPage;
 
     @Test
     public void testContarProdutos_oitoProdutosDiferentes() {
@@ -58,21 +62,33 @@ public class HomePageTests extends BaseTests {
 
     @Test
     public void incluirProdutoNoCarrinho_IncluidoComSucesso(){
+
+        String tamanhoProduto = "XL";
+        String corProduto = "Black";
+        int quantidadeDesejada = 2;
+
         if(!homePage.estaLogado("Xico Santos")){
             testLoginComSucesso_UsuarioLogado();
         }
         testValidarDetalhesDoProduto_DescricaoEValor();
 
-        List<String> listaOpcoes;
-
-        produtoPage.selecionarOpcaoDropDown("XL");
-        listaOpcoes = produtoPage.obterOpçõesSelecionadas();
-
-        System.out.println(listaOpcoes.get(0));
+        produtoPage.selecionarOpcaoDropDown(tamanhoProduto);
 
         produtoPage.SelecionarCorPreta();
 
-        produtoPage.alterarQuantidadeDoProduto(2);
+        produtoPage.alterarQuantidadeDoProduto(quantidadeDesejada);
+
+        modalProdutoPage = produtoPage.botaoAdicionarNoCarrinho();
+
+        assertTrue(modalProdutoPage.obterMensagemProdutoAdicionado()
+                .contains("Product successfully added to your shopping cart"));
+
+        assertThat(modalProdutoPage.obterTamanhoProduto(), is(tamanhoProduto));
+        assertThat(modalProdutoPage.obterCorProduto(), is(corProduto));
+        assertThat(modalProdutoPage.obterQuantidadeProduto(), is(quantidadeDesejada));
+
+
+
 
     }
 

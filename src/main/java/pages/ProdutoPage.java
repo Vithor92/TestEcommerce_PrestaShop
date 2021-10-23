@@ -17,7 +17,7 @@ public class ProdutoPage {
     private By tamanhoDoProduto = By.id("group_1");
     private By selecionarCorPretaDoProduto = By.xpath("//*[@id=\"group_2\"]/li[2]/label/input");
     private By quantidadeDoProduto = By.id("quantity_wanted");
-    private By botaoAddCarrinho = By.className("btn btn-primary add-to-cart");
+    private By botaoAddCarrinho = By.cssSelector("div>button");
 
     public ProdutoPage(WebDriver driver){
         this.driver = driver;
@@ -60,8 +60,9 @@ public class ProdutoPage {
         driver.findElement(quantidadeDoProduto).sendKeys(Integer.toString(quantidade));
     }
 
-    public void botaoAdicionarNoCarrinho(){
+    public ModalProdutoPage botaoAdicionarNoCarrinho(){
         driver.findElement(botaoAddCarrinho).click();
+        return new ModalProdutoPage(driver);
     }
 
 }
