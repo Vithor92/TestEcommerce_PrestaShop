@@ -6,6 +6,7 @@ import pages.CarrinhoPage;
 import pages.LoginPage;
 import pages.ModalProdutoPage;
 import pages.ProdutoPage;
+import util.Funcoes;
 
 import java.util.Locale;
 
@@ -89,17 +90,13 @@ public class HomePageTests extends BaseTests {
         assertThat(modalProdutoPage.obterDescricaoProduto()
                 .toUpperCase(Locale.ROOT), is(nomeProduto_HomePage.toUpperCase(Locale.ROOT)));
 
-        String precoProdutoString = modalProdutoPage.obterPrecoProduto();
-        precoProdutoString = precoProdutoString.replace("$", "");
-        Double precoProduto = Double.parseDouble(precoProdutoString);
+        Double precoProduto = Funcoes.removeCifraoDevolveValorDouble(modalProdutoPage.obterPrecoProduto());
 
         assertThat(modalProdutoPage.obterTamanhoProduto(), is(tamanhoProduto));
         assertThat(modalProdutoPage.obterCorProduto(), is(corProduto));
         assertThat(modalProdutoPage.obterQuantidadeProduto(), is(Integer.toString(quantidadeDesejada)));
 
-        String precoSubTotalString = modalProdutoPage.obterSubTotal();
-        precoSubTotalString = precoSubTotalString.replace("$", "");
-        Double subTotal = Double.parseDouble(precoSubTotalString);
+        Double subTotal = Funcoes.removeCifraoDevolveValorDouble(modalProdutoPage.obterSubTotal());
 
         Double subTotalCalculado = quantidadeDesejada * precoProduto;
 
@@ -107,11 +104,46 @@ public class HomePageTests extends BaseTests {
 
     }
 
+    String esperado_nomeProduto = "Hummingbird printed t-shirt";
+    Double esperado_precoProduto = 19.12;
+    String esperado_tamanhoDoProduto = "XL";
+    String esperado_corDoProduto = "Black";
+    String esperado_inputQuantidadeDoProduto = "2";
+    Double esperado_subTotalDoProduto = 38.24;
+    int esperado_numeroDeItensTotal = 2;
+    Double esperado_subtotalPainelDeValores = 38.24;
+    Double esperado_shippingTotal = 7.00;
+    Double esperado_totalSemTaxInclude = 45.24;
+    Double esperado_totalComTaxInclude = 45.24;
+    Double esperado_totalTaxas = 0.00;
+
     @Test
     public void irParaCarrinho_VerificarInformacoesNaPaginaCarrinho() {
         incluirProdutoNoCarrinho_IncluidoComSucesso();
 
         carrinhoPage = modalProdutoPage.clicarBotaoProcederParaCheckout();
+
+        assertThat(carrinhoPage.obterNomeDoProduto(), is(esperado_nomeProduto));
+        assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterPrecoDoProduto())),
+                is(esperado_precoProduto));
+        assertThat(carrinhoPage.obterTamanhoDoProduto(), is(esperado_tamanhoDoProduto));
+        assertThat(carrinhoPage.obterCorDoProduto(), is(esperado_corDoProduto));
+        assertThat(carrinhoPage.obterInputQuantidadeDoProduto(), is(esperado_inputQuantidadeDoProduto));
+        assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterSubtotalDoProduto())),
+                is(esperado_subTotalDoProduto));
+        assertThat((Funcoes.removeTextoItensDevolveValorInteiro(carrinhoPage.obterNumeroDeItensTotal())),
+                is(esperado_numeroDeItensTotal));
+        assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterSubtotalPainelDeValores())),
+                is(esperado_subtotalPainelDeValores));
+        assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterShippingTotal())),
+                is(esperado_shippingTotal));
+        assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterTotalSemTaxInclude())),
+                is (esperado_totalSemTaxInclude));
+        assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterTotalComTaxInclude())),
+                is (esperado_totalComTaxInclude));
+        assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterTotalTaxas())),
+                is(esperado_totalTaxas));
+
 
     }
 
