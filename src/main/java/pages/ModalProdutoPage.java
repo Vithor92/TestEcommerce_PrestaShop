@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.PrimitiveIterator;
+
 public class ModalProdutoPage {
 
     private WebDriver driver;
@@ -13,6 +15,8 @@ public class ModalProdutoPage {
     private By descricaoProduto = By.className("product-name");
     private By precoProduto = By.cssSelector("div.modal-body p.product-price");
     private By listaValoresInformados = By.cssSelector("div.col-md-6:nth-child(2) span strong");
+    private By subTotal = By.cssSelector(".cart-content p:nth-child(2) span.value");
+    private By btnProcederParaChekout = By.cssSelector("div.cart-content-btn a.btn-primary");
 
 
     public ModalProdutoPage(WebDriver driver){
@@ -26,6 +30,14 @@ public class ModalProdutoPage {
         return driver.findElement(mensagemProdutoAdicionado).getText();
     }
 
+    public String obterDescricaoProduto(){
+        return driver.findElement(descricaoProduto).getText();
+    }
+
+    public String obterPrecoProduto(){
+        return driver.findElement(precoProduto).getText();
+    }
+
     public String obterTamanhoProduto(){
         return driver.findElements(listaValoresInformados).get(0).getText();
     }
@@ -36,6 +48,15 @@ public class ModalProdutoPage {
 
     public String obterQuantidadeProduto(){
         return driver.findElements(listaValoresInformados).get(2).getText();
+    }
+
+    public String obterSubTotal(){
+        return driver.findElement(subTotal).getText();
+    }
+
+    public CarrinhoPage clicarBotaoProcederParaCheckout(){
+        driver.findElement(btnProcederParaChekout).click();
+        return new CarrinhoPage(driver);
     }
 
 
