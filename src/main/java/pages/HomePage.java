@@ -20,6 +20,7 @@ public class HomePage {
     private By precoProduto = By.className("price");
     private By botaoSignInDaHomePage = By.cssSelector("#_desktop_user_info span.hidden-sm-down");
     private By usuarioLogado = By.cssSelector("#_desktop_user_info span.hidden-sm-down");
+    private By botaoSignOutDaHomePage = By.cssSelector("a.logout");
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -63,6 +64,10 @@ public class HomePage {
 
     public boolean estaLogado(String usuario){
         return usuario.contentEquals(driver.findElement(usuarioLogado).getText());
+    }
+
+    public void clicarBotaoSignOut(){
+        driver.findElement(botaoSignOutDaHomePage).click();
     }
 
 }

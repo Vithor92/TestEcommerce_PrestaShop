@@ -1,0 +1,4 @@
+nomeTeste;email;password;nomeUsuario;resultado
+loginValido;xico@email.com;987654321;Xico Santos;positivo
+loginInvalido;xico@email.com;123teste;Xico Santos;negativo
+loginInvalido;fulano@email.com;987654321;Fulano Silva;negativo
