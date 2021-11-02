@@ -20,6 +20,21 @@ public class HomePageTests extends BaseTests {
     String nomeProduto_HomePage;
     CarrinhoPage carrinhoPage;
     CheckoutPage checkoutPage;
+    PedidoPage pedidoPage;
+
+    String esperado_nomeProduto = "Hummingbird printed t-shirt";
+    Double esperado_precoProduto = 19.12;
+    String esperado_tamanhoDoProduto = "XL";
+    String esperado_corDoProduto = "Black";
+    String esperado_inputQuantidadeDoProduto = "2";
+    Double esperado_subTotalDoProduto = 38.24;
+    int esperado_numeroDeItensTotal = 2;
+    Double esperado_subtotalPainelDeValores = 38.24;
+    Double esperado_shippingTotal = 7.00;
+    Double esperado_totalSemTaxInclude = 45.24;
+    Double esperado_totalComTaxInclude = 45.24;
+    Double esperado_totalTaxas = 0.00;
+    String esperado_NomeDoCliente = "Xico Santos";
 
     @Test
     public void testContarProdutos_oitoProdutosDiferentes() {
@@ -102,20 +117,7 @@ public class HomePageTests extends BaseTests {
 
     }
 
-    String esperado_nomeProduto = "Hummingbird printed t-shirt";
-    Double esperado_precoProduto = 19.12;
-    String esperado_tamanhoDoProduto = "XL";
-    String esperado_corDoProduto = "Black";
-    String esperado_inputQuantidadeDoProduto = "2";
-    Double esperado_subTotalDoProduto = 38.24;
-    int esperado_numeroDeItensTotal = 2;
-    Double esperado_subtotalPainelDeValores = 38.24;
-    Double esperado_shippingTotal = 7.00;
-    Double esperado_totalSemTaxInclude = 45.24;
-    Double esperado_totalComTaxInclude = 45.24;
-    Double esperado_totalTaxas = 0.00;
-
-    @Test
+     @Test
     public void irParaCarrinho_VerificarInformacoesNaPaginaCarrinho() {
         incluirProdutoNoCarrinho_IncluidoComSucesso();
 
@@ -147,11 +149,48 @@ public class HomePageTests extends BaseTests {
     @Test
     public void irParaCheckout_VerificarFretePagamentoEndereco(){
         irParaCarrinho_VerificarInformacoesNaPaginaCarrinho();
-
         checkoutPage = carrinhoPage.clicarBotaoProceedToCheckout();
 
         assertThat(Funcoes.removeCifraoDevolveValorDouble(checkoutPage.obterTotalComTaxInclude()),
                 is(esperado_totalComTaxInclude));
+        assertTrue(checkoutPage.obterNomeDoCliente().contains(esperado_NomeDoCliente));
+
+        checkoutPage.clicarBotaoContinueParaShipping();
+
+        String valorShippingSemTexto = Funcoes.removeTextoDoValorShipping(checkoutPage.obterValorShipping());
+
+        assertThat(Funcoes.removeCifraoDevolveValorDouble(valorShippingSemTexto),
+                is(esperado_shippingTotal));
+
+        checkoutPage.clicarBotaoContinueParaPayment();
+        checkoutPage.selecionarEmPagamentoPayByCheck();
+
+        String valorTotalDoPayCheckSemTexto = Funcoes.
+                removeTextoDoValorPayByCheck(checkoutPage.obterValorDoPayByCheck());
+
+        assertThat(Funcoes.removeCifraoDevolveValorDouble(valorTotalDoPayCheckSemTexto),
+                is(esperado_totalComTaxInclude));
+
+        checkoutPage.clicarEmAceitarTermsOfService();
+
+        assertTrue(checkoutPage.seAceitarTermsOfServiceEstaSelecionado());
+
+    }
+
+    @Test
+    public void finalizarPedido_EsperadoPedidoFinalizadoCorretamente(){
+        irParaCheckout_VerificarFretePagamentoEndereco();
+        pedidoPage = checkoutPage.finalizarPedidoBotaoConcluirOrder();
+
+        assertTrue(pedidoPage.obterStatusDeConfirmacaoDaOrder().contains("YOUR ORDER IS CONFIRMED"));
+        assertTrue(pedidoPage.emailDoUsuarioNaOrder().contains("xico@email.com"));
+        assertThat(Funcoes.removeCifraoDevolveValorDouble(pedidoPage.subTotalDoProdutoNaOrder()),
+                is(esperado_subTotalDoProduto));
+        assertThat(Funcoes.removeCifraoDevolveValorDouble(pedidoPage.totalDoProdutoNaOrder()),
+                is(esperado_totalComTaxInclude));
+        assertTrue(pedidoPage.retornarMetodoDePagamento().contains("Payments by check"));
+
+
 
     }
 

@@ -24,7 +24,7 @@ public class BaseTests {
     public void carregarPaginaInicial(){
         driver.get("https://marcelodebittencourt.com/demoprestashop/");
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(7, TimeUnit.SECONDS);
         homePage = new HomePage(driver);
     }
 

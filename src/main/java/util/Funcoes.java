@@ -11,4 +11,15 @@ public class Funcoes {
         texto = texto.replace(" items", "");
         return Integer.parseInt(texto);
     }
+
+    public static String removeTextoDoValorShipping(String texto){
+        texto = texto.replace(" tax excl.", "");
+        return texto;
+    }
+
+    public static String removeTextoDoValorPayByCheck(String texto){
+        texto = texto.replace(" (tax incl.)", "");
+        return texto;
+    }
+
 }
