@@ -74,8 +74,9 @@ public class CarrinhoPage {
         return driver.findElement(totalTaxas).getText();
     }
 
-    public void clicarBotaoProceedToCheckout(){
+    public CheckoutPage clicarBotaoProceedToCheckout(){
         driver.findElement(botaoProceedToCheckout).click();
+        return new CheckoutPage(driver);
     }
 
 

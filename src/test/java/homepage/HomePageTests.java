@@ -2,10 +2,7 @@ package homepage;
 
 import base.BaseTests;
 import org.junit.jupiter.api.Test;
-import pages.CarrinhoPage;
-import pages.LoginPage;
-import pages.ModalProdutoPage;
-import pages.ProdutoPage;
+import pages.*;
 import util.Funcoes;
 
 import java.util.Locale;
@@ -22,6 +19,7 @@ public class HomePageTests extends BaseTests {
     ModalProdutoPage modalProdutoPage;
     String nomeProduto_HomePage;
     CarrinhoPage carrinhoPage;
+    CheckoutPage checkoutPage;
 
     @Test
     public void testContarProdutos_oitoProdutosDiferentes() {
@@ -144,6 +142,16 @@ public class HomePageTests extends BaseTests {
         assertThat((Funcoes.removeCifraoDevolveValorDouble(carrinhoPage.obterTotalTaxas())),
                 is(esperado_totalTaxas));
 
+    }
+
+    @Test
+    public void irParaCheckout_VerificarFretePagamentoEndereco(){
+        irParaCarrinho_VerificarInformacoesNaPaginaCarrinho();
+
+        checkoutPage = carrinhoPage.clicarBotaoProceedToCheckout();
+
+        assertThat(Funcoes.removeCifraoDevolveValorDouble(checkoutPage.obterTotalComTaxInclude()),
+                is(esperado_totalComTaxInclude));
 
     }
 
