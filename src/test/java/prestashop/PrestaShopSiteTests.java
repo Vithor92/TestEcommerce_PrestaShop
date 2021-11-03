@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import pages.*;
 import util.Funcoes;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -82,7 +83,7 @@ public class PrestaShopSiteTests extends BaseTests {
     @ParameterizedTest
     @CsvFileSource(resources = "/massaTeste_Login.csv", numLinesToSkip = 1, delimiter = ';')
     public void testLogin_UsuarioLogadoQuandoSeusDadosForemValido(String nomeTeste
-            , String email, String password, String nomeUsuario, String resultado){
+            , String email, String password, String nomeUsuario, String resultado) throws IOException {
 
         loginPage = homePage.clicarBotaoSignInDaHomePage();
 
@@ -96,6 +97,8 @@ public class PrestaShopSiteTests extends BaseTests {
         else
             esperado_LoginCorreto = false;
         assertThat(homePage.estaLogado(nomeUsuario), is(esperado_LoginCorreto));
+
+        capturarTela(nomeTeste, resultado);
 
         if (esperado_LoginCorreto){
             homePage.clicarBotaoSignOut();
