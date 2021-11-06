@@ -2,9 +2,10 @@
 
 Java 8 <br /> 
 Maven <br />
-Selenium <br />
+Selenium Webdriver<br />
 JUnit <br />
-Hamcrest
+Hamcrest <br />
+Apache Commons-io
 
 # Projeto
 
